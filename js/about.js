@@ -1,41 +1,41 @@
-let totalIncome = 0;
-let totalExpense = 0;
+let totalIncome = 0;  
+let totalExpense = 0; 
+let balance = 0;      
+let oldBalance = 0;
 
 const form = document.getElementById('finance-form');
-const totalIncomeElement = document.getElementById('total-income');
-const totalExpenseElement = document.getElementById('total-expense');
-const balanceElement = document.getElementById('balance');
-const errorMessageElement = document.getElementById('error-message');
-
-function updateBalance() {
-    const balance = totalIncome - totalExpense;
-    balanceElement.textContent = balance;
+const errorMessage = document.getElementById('error-message'); 
+const updateBalance = () => {
+    balance = totalIncome - totalExpense; 
+    console.log("Balance actualizado:", balance);
     return balance; 
 }
 
 form.addEventListener('submit', function(event) {
-    event.preventDefault();
+    event.preventDefault();  
 
-    const type = document.getElementById('type').value;
-    const amount = parseFloat(document.getElementById('amount').value);
-    const category = document.getElementById('category').value;
+    const type = document.getElementById('type').value; 
+    const amount = parseFloat(document.getElementById('amount').value);  
+    const category = document.getElementById('category').value;  
 
     if (isNaN(amount) || amount <= 0 || category.trim() === "") {
-        errorMessageElement.textContent = "Por favor, ingresa una cantidad válida y una categoría.";
+        errorMessage.textContent = "Por favor, ingresa una cantidad válida y una categoría.";
         return;
     } else {
-        errorMessageElement.textContent = ""; 
+        errorMessage.textContent = "";  
     }
 
-    const oldBalance = updateBalance();  
+    const oldBalance = balance;
 
     if (type === "ingreso") {
         totalIncome += amount;
     } else if (type === "gasto") {
-        totalExpense += amount;
+        totalExpense += amount; 
     }
 
+
     const newBalance = updateBalance();  
+   
 
     const date = new Date().toLocaleString();
 
@@ -43,8 +43,8 @@ form.addEventListener('submit', function(event) {
 
     updateHistory();
 
-    totalIncomeElement.textContent = totalIncome.toFixed(2);
-    totalExpenseElement.textContent = totalExpense.toFixed(2);
+    const userFinance = { totalIncome, totalExpense, balance: newBalance };
+    localStorage.setItem("userFinance", JSON.stringify(userFinance));
 
     form.reset();
 });
