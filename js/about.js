@@ -33,18 +33,44 @@ form.addEventListener('submit', function(event) {
         totalExpense += amount; 
     }
 
-
     const newBalance = updateBalance();  
-   
 
-    const date = new Date().toLocaleString();
+    // Guardar las transacciones
+    const transaction = {
+        type,
+        amount,
+        category,
+        oldBalance,
+        newBalance,
+        date: new Date().toLocaleString()
+    };
 
-    addToHistory(type, amount, category, oldBalance, newBalance, date);
+    // Obtener las transacciones previas del localStorage, si existen
+    let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
 
-    updateHistory();
+    // Agregar la nueva transacción al array
+    transactions.push(transaction);
 
+    // Guardar las transacciones actualizadas en localStorage
+    localStorage.setItem("transactions", JSON.stringify(transactions));
+
+    // Actualizar el resumen en el localStorage
     const userFinance = { totalIncome, totalExpense, balance: newBalance };
     localStorage.setItem("userFinance", JSON.stringify(userFinance));
 
+    // Actualizar la UI del resumen
+    const totalIncomeElement = document.getElementById('total-income');
+    const totalExpenseElement = document.getElementById('total-expense');
+    const balanceElement = document.getElementById('balance');
+
+    const getUserFinance = JSON.parse(localStorage.getItem("userFinance"));
+
+    if (getUserFinance) {
+        totalIncomeElement.innerHTML = getUserFinance.totalIncome;
+        totalExpenseElement.innerHTML = getUserFinance.totalExpense;
+        balanceElement.innerHTML = getUserFinance.balance;
+    }
+
     form.reset();
 });
+

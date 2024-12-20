@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    
+
 </head>
+
 <body>
     <div class="container">
         <h1>Gestor de Finanzas Personales</h1>
@@ -38,25 +40,31 @@
             <button type="submit">Añadir</button>
         </form>
 
-        <button id="viewResultsBtn">
-            ver resultados
-        </button>
+        
 
-        <!-- Resumen -->
-        <!-- <div id="summary">
+        <!-- resumen -->
+        <div id="summary">
             <h2>Resumen</h2>
             <p>Ingreso Total: <span id="total-income">0</span></p>
             <p>Gasto Total: <span id="total-expense">0</span></p>
             <p>Balance: <span id="balance">0</span></p>
-        </div> -->
+        </div>
 
         <div id="error-message"></div>
-        <!-- historial -->
-        <div id="history"></div>
+
+        <button id="clearSummaryBtn">
+            Reiniciar resumen
+        </button>
+
+<button id="viewResultsBtn">
+            ver historial de transacciones
+        </button>
+       
     </div>
     <script src="./js/about.js"></script>
-    <script src="./js/about2.js"></script>
     <script src="./js/historyFinance.js"></script>
     <script src="./js/components/viewResultsBtn.js"></script>
+    <script src="./js/components/clearSummaryBtn.js"></script>
 </body>
+
 </html>
