@@ -7,9 +7,32 @@ const form = document.getElementById('finance-form');
 const errorMessage = document.getElementById('error-message'); 
 const updateBalance = () => {
     balance = totalIncome - totalExpense; 
-    console.log("Balance actualizado:", balance);
     return balance; 
 }
+
+// solucionando error de carga de pagina
+
+// aqui se cargan los datos del LS 
+window.addEventListener('load', () => {
+    // verificamos si hay data
+    const savedFinance = JSON.parse(localStorage.getItem("userFinance"));
+    
+    if (savedFinance) {
+        totalIncome = savedFinance.totalIncome;
+        totalExpense = savedFinance.totalExpense;
+        balance = savedFinance.balance;
+
+        // se actualiza los datos en el DOM
+        const totalIncomeElement = document.getElementById('total-income');
+        const totalExpenseElement = document.getElementById('total-expense');
+        const balanceElement = document.getElementById('balance');
+
+        // los agregamos de manera visual
+        totalIncomeElement.innerHTML = totalIncome.toFixed(2);
+        totalExpenseElement.innerHTML = totalExpense.toFixed(2);
+        balanceElement.innerHTML = balance.toFixed(2);
+    }
+});
 
 form.addEventListener('submit', function(event) {
     event.preventDefault();  
@@ -48,23 +71,22 @@ form.addEventListener('submit', function(event) {
     // Obtener las transacciones previas del localStorage, si existen
     let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
 
-    // Agregar la nueva transacción al array
     transactions.push(transaction);
 
-    // Guardar las transacciones actualizadas en localStorage
     localStorage.setItem("transactions", JSON.stringify(transactions));
 
-    // Actualizar el resumen en el localStorage
+    // Aca actualizamos el resumen en el LS
     const userFinance = { totalIncome, totalExpense, balance: newBalance };
     localStorage.setItem("userFinance", JSON.stringify(userFinance));
 
-    // Actualizar la UI del resumen
+    
     const totalIncomeElement = document.getElementById('total-income');
     const totalExpenseElement = document.getElementById('total-expense');
     const balanceElement = document.getElementById('balance');
 
     const getUserFinance = JSON.parse(localStorage.getItem("userFinance"));
 
+    // si encuentra la key "userFinance", cambia o actualiza el resultado del dom
     if (getUserFinance) {
         totalIncomeElement.innerHTML = getUserFinance.totalIncome;
         totalExpenseElement.innerHTML = getUserFinance.totalExpense;
